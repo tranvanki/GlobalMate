@@ -1,5 +1,5 @@
 # GlobalMate
-Master github link for mini project
+Master GitHub link for mini project
 
 ## 🔒 Branch Protection Policy
 

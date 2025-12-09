@@ -3,6 +3,16 @@
 ## Overview
 This repository requires all code changes to be made through feature branches and pull requests. Direct pushes to the `main` (or `master`) branch are not allowed.
 
+### Protection Layers
+
+This repository uses multiple layers of protection:
+
+1. **GitHub Branch Protection Rules** (Primary) - The most robust protection configured in repository settings
+2. **GitHub Actions Workflow** (Secondary) - Additional safety net that alerts on direct pushes
+3. **Client-side Git Hooks** (Optional) - Local prevention for developers who install them
+
+**Important:** Repository administrators should configure GitHub branch protection rules as the primary enforcement mechanism. The other layers serve as additional safety nets and educational tools.
+
 ## Setting Up Branch Protection (Repository Administrators)
 
 To enforce branch protection on GitHub:
