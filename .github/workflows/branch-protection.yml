@@ -1,0 +1,44 @@
+name: Branch Protection Check
+
+# This workflow prevents direct pushes to the main branch
+# Team members must create feature branches and submit pull requests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  prevent-direct-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check if push is from a PR merge
+        id: check
+        run: |
+          echo "Checking push to main/master branch..."
+          echo "Actor: ${{ github.actor }}"
+          echo "Event name: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          
+          # Check if this is a merge commit from a pull request
+          # PR merges will have a merge commit message or come from github-actions bot
+          if [[ "${{ github.event.head_commit.message }}" == *"Merge pull request"* ]] || \
+             [[ "${{ github.actor }}" == *"[bot]"* ]] || \
+             [[ "${{ github.event.head_commit.message }}" == *"Merge branch"* ]]; then
+            echo "✓ This is a legitimate PR merge. Allowing push."
+            exit 0
+          fi
+          
+          echo ""
+          echo "❌ Direct push to main/master branch detected!"
+          echo "ERROR: Please create a feature branch and submit a pull request."
+          echo ""
+          echo "To create a new branch:"
+          echo "  git checkout -b feature/your-feature-name"
+          echo "  git push -u origin feature/your-feature-name"
+          echo ""
+          echo "Then create a pull request on GitHub."
+          exit 1
