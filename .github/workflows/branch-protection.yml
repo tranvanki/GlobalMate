@@ -12,6 +12,8 @@ on:
 jobs:
   prevent-direct-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Check if push is from a PR merge
         id: check
