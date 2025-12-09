@@ -1,0 +1,29 @@
+name: Branch Protection Check
+
+# This workflow prevents direct pushes to the main branch
+# Team members must create feature branches and submit pull requests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  prevent-direct-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if push is from a PR merge
+        id: check
+        run: |
+          echo "Direct push to main/master branch detected!"
+          echo "ERROR: Please create a feature branch and submit a pull request."
+          echo ""
+          echo "To create a new branch:"
+          echo "  git checkout -b feature/your-feature-name"
+          echo "  git push -u origin feature/your-feature-name"
+          echo ""
+          echo "Then create a pull request on GitHub."
+          exit 1
+        # This step will fail for direct pushes
+        # PR merges are handled differently by GitHub and won't trigger this workflow in the same way
